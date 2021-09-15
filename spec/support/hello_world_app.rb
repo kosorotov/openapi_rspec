@@ -13,13 +13,24 @@ class HelloWorldApp
         request = Rack::Request.new(env)
 
         data = if request.form_data?
-          request.params
-        else
-          JSON.parse(request.body.string)
-        end
+                 request.params
+               else
+                 JSON.parse(request.body.string)
+               end
 
         lucky = data["id"] = 23
         [200, {"Content-Type" => "application/json"}, [JSON.dump(lucky)]]
+      when "PUT"
+        request = Rack::Request.new(env)
+
+        data = if request.form_data?
+                 request.params
+               else
+                 JSON.parse(request.body.string)
+               end
+
+        pepe = data["id"] = 42
+        [200, {"Content-Type" => "application/json"}, [JSON.dump(pepe)]]
       else
         [405, {}, []]
       end

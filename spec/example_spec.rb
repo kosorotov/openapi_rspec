@@ -4,7 +4,7 @@ require "openapi_rspec"
 
 OpenapiRspec.config.app = HelloWorldApp.new
 
-RSpec.describe "API v1" do
+RSpec.describe "API v1" do # rubocop:disable Metrics/BlockLength
   # do not forget additional_schemas
   subject { OpenapiRspec.api("./spec/data/openapi.yml", api_base_path: "/v1") }
 
@@ -24,6 +24,13 @@ RSpec.describe "API v1" do
 
   post "/pets" do
     params { {name: "Lucky"} }
+
+    validate_code(200)
+  end
+
+  put "/pets/{id}" do
+    let(:id) { 42 }
+    params { JSON.dump(name: "Pepe") }
 
     validate_code(200)
   end
